@@ -1,0 +1,60 @@
+<!--
+
+  Custom Wazuh Detection Rules
+  Project: MITRE ATT&CK-Mapped Detection Engineering & Threat Hunting Lab
+  Location on Wazuh manager: /var/ossec/etc/rules/local_rules.xml
+-->
+<group name="local,windows,credential_access,">
+<!-- T1003.001 - LSASS Memory (Credential Dumping) -->
+<rule id="100010" level="12">
+<if_group>sysmon_eid1_detections</if_group>
+<field name="win.eventdata.commandLine" type="pcre2">
+(?i)(lsass).*(dump|minidump)|(comsvcs\.dll.*MiniDump)|(procdump.*lsass)|(rdrleakdiag)|(nanodump)|(mimikatz)|(pypykatz)|(Out-Minidump)
+</field>
+<description>Possible LSASS Credential Dumping Attempt Detected</description>
+<mitre>
+<id>T1003.001</id>
+</mitre>
+<group>credential_access,attack_t1003_001,</group>
+</rule>
+<!-- T1082 - System Information Discovery -->
+<rule id="100011" level="6">
+<if_group>sysmon_eid1_detections</if_group>
+<field name="win.eventdata.commandLine" type="pcre2">
+(?i)(systeminfo|hostname\.exe|Get-ComputerInfo|wmic\s+os\s+get|wmic\s+computersystem)
+</field>
+<description>
+Possible System Information Discovery Activity Detected
+</description>
+<mitre>
+<id>T1082</id>
+</mitre>
+<group>discovery,attack_t1082,</group>
+</rule>
+<!-- T1016 - System Network Configuration Discovery -->
+<rule id="100012" level="6">
+<if_group>sysmon_eid1_detections</if_group>
+<field name="win.eventdata.commandLine" type="pcre2">
+(?i)(nslookup|ipconfig\s+/all|arp\s+-a|route\s+print|netstat\s+-)
+</field>
+<description>
+Possible Network Configuration Discovery Activity Detected
+</description>
+<mitre>
+<id>T1016</id>
+</mitre>
+<group>discovery,attack_t1016,</group>
+</rule>
+<!-- T1087.001 - Local Account Discovery -->
+<rule id="100013" level="6">
+<if_group>sysmon_eid1_detections</if_group>
+<field name="win.eventdata.commandLine" type="pcre2">
+(?i)(net\s+user|net\s+localgroup|net\s+group|Get-LocalUser|Get-LocalGroup)
+</field>
+<description>Possible Local Account Discovery Activity Detected</description>
+<mitre>
+<id>T1087.001</id>
+</mitre>
+<group>discovery,attack_t1087_001,</group>
+</rule>
+</group>
