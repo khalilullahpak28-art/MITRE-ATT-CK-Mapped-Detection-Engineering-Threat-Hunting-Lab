@@ -1,0 +1,2 @@
+# MITRE-ATT-CK-Mapped-Detection-Engineering-Threat-Hunting-Lab
+SOC detection engineering project using Wazuh SIEM to identify and close detection gaps through MITRE ATT&amp;CK-based attack simulations. Includes custom rule development, validation, and MISP threat intelligence integration through a custom-built pipeline. Extends previous SOC automation work with a focus on detection and threat intelligence.
